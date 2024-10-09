@@ -1,0 +1,140 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 -- Apa tren penggajian dan kenaikan gaji karyawan dalam tiga tahun terakhir ?\
+SELECT \
+    department,\
+    YEAR(hire_date) AS year,\
+    AVG(salary) AS average_salary\
+FROM \
+    human_resource\
+WHERE \
+    YEAR(hire_date) >= YEAR(CURDATE()) - 3\
+GROUP BY \
+    department, YEAR(hire_date)\
+ORDER BY \
+    department, year;\
+    \
+Penjelasan: Query ini menampilkan rata-rata gaji per departemen per tahun untuk tiga tahun terakhir. Hasil ini bisa divisualisasikan dengan grafik garis untuk melihat tren kenaikan gaji.\
+\
+-- Berapa rasio karyawan yang dipekerjakan di masing-masing departemen ?\
+SELECT \
+    department,\
+    COUNT(*) AS total_employees,\
+    ROUND(COUNT(*) * 100 / (SELECT COUNT(*) FROM human_resource), 2) AS percentage\
+FROM \
+    human_resource\
+GROUP BY \
+    department;\
+    \
+Penjelasan: Query ini menghitung jumlah karyawan di setiap departemen dan menghitung persentase dari total karyawan, yang bisa divisualisasikan sebagai diagram pie.\
+\
+-- Berapa persentase penerbangan yang tepat waktu dalam sebulan terakhir ?\
+SELECT \
+    SUM(CASE WHEN status = 'Scheduled' THEN 1 ELSE 0 END) / COUNT(*) * 100 AS on_time_percentage\
+FROM \
+    operation\
+WHERE \
+    departure_time BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 MONTH) AND CURDATE();\
+\
+Penjelasan: Query ini menghitung persentase penerbangan tepat waktu (berstatus "Scheduled") dalam sebulan terakhir. Hasilnya bisa ditampilkan dalam tabel atau visualisasi angka.\
+\
+-- Apa penyebab utama keterlambatan penerbangan yang tercatat ?\
+\
+SELECT \
+    reason, \
+    COUNT(*) AS delay_count\
+FROM \
+    flight_delays\
+GROUP BY \
+    reason\
+ORDER BY \
+    delay_count DESC;\
+\
+Penjelasan: Data penyebab keterlambatan diasumsikan ada di tabel flight_delays. Query ini akan menghitung jumlah keterlambatan berdasarkan alasan keterlambatan, yang bisa divisualisasikan sebagai grafik batang.\
+\
+-- Bagaimana perbandingan pendapatan dan pengeluaran dalam satu tahun terakhir ?\
+SELECT \
+    MONTH(transaction_date) AS month, \
+    SUM(CASE WHEN transaction_type = 'Income' THEN amount ELSE 0 END) AS total_income,\
+    SUM(CASE WHEN transaction_type = 'Expense' THEN amount ELSE 0 END) AS total_expense\
+FROM \
+    finance\
+WHERE \
+    YEAR(transaction_date) = YEAR(CURDATE()) \
+GROUP BY \
+    MONTH(transaction_date);\
+\
+Penjelasan: Query ini membandingkan total pendapatan dan pengeluaran per bulan dalam satu tahun terakhir, yang bisa divisualisasikan dengan grafik batang atau garis.\
+\
+-- Apa sumber pendapatan utama perusahaan dan bagaimana kontribusinya terhadap total pendapatan ?\
+\
+SELECT \
+    description,\
+    SUM(amount) AS total_income,\
+    ROUND(SUM(amount) * 100 / (SELECT SUM(amount) FROM finance WHERE transaction_type = 'Income'), 2) AS percentage\
+FROM \
+    finance\
+WHERE \
+    transaction_type = 'Income'\
+GROUP BY \
+    description\
+ORDER BY \
+    total_income DESC;\
+\
+Penjelasan: Query ini menunjukkan kontribusi dari masing-masing sumber pendapatan (misalnya, penjualan tiket, layanan charter), yang bisa divisualisasikan sebagai diagram batang atau pie.\
+\
+-- Seberapa sering pemeliharaan dilakukan pada setiap jenis pesawat ?\
+\
+SELECT \
+    aircraft_id, \
+    COUNT(*) AS maintenance_count\
+FROM \
+    technical\
+GROUP BY \
+    aircraft_id\
+ORDER BY \
+    maintenance_count DESC;\
+\
+Penjelasan: Query ini menghitung frekuensi pemeliharaan berdasarkan ID pesawat, yang bisa divisualisasikan sebagai grafik batang untuk menunjukkan pesawat mana yang paling sering mendapatkan pemeliharaan.\
+\
+-- Apa saja masalah teknis yang paling sering terjadi dan bagaimana dampaknya terhadap operasi ?\
+\
+SELECT \
+    maintenance_type, \
+    COUNT(*) AS issue_count\
+FROM \
+    technical\
+GROUP BY \
+    maintenance_type\
+ORDER BY \
+    issue_count DESC;\
+\
+Penjelasan: Query ini menampilkan jumlah masalah teknis berdasarkan jenis pemeliharaan, yang bisa dianalisis untuk menentukan dampak terhadap operasi penerbangan.\
+\
+-- Apakah ada kontrak yang mendekati tanggal kedaluwarsa dan perlu diperbarui ?\
+\
+SELECT \
+    contract_name, \
+    end_date\
+FROM \
+    legal\
+WHERE \
+    end_date BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 3 MONTH);\
+\
+Penjelasan: Query ini menampilkan kontrak yang akan berakhir dalam 3 bulan ke depan, yang dapat digunakan untuk perencanaan pembaruan.\
+\
+-- Bagaimana kepatuhan terhadap peraturan hukum mempengaruhi operasional perusahaan ?\
+\
+SELECT \
+    COUNT(*) AS compliance_issues\
+FROM \
+    legal\
+WHERE \
+    department = 'Operations' AND end_date < CURDATE();\
+\
+Penjelasan: Query ini menghitung jumlah masalah kepatuhan (misalnya, kontrak yang sudah kadaluwarsa) di departemen operasi, yang bisa digunakan untuk menilai dampaknya terhadap operasional perusahaan.}
