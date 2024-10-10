@@ -1,5 +1,5 @@
 # Charter Skyways Database Queries
-This repository contains SQL queries for setting up, populating, analyzing, backing up, and recovering the database for a fictional charter airline company, **Charter Skyways**. This is a personal project, and the data included is entirely dummy data.
+This repository contains SQL queries for setting up, populating, analyzing, backing up, and recovering the database for a fictional charter airline company, **Skyways Charter**. This is a personal project, and the data included is entirely dummy data.
 
 ## Project Structure
 - `skycharter_indonesia.sql`: Script for creating tables in the database & Script for populating the tables with dummy data.
