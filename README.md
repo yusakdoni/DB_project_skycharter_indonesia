@@ -2,15 +2,13 @@
 This repository contains SQL queries for setting up, populating, analyzing, backing up, and recovering the database for a fictional charter airline company, **Charter Skyways**. This is a personal project, and the data included is entirely dummy data.
 
 ## Project Structure
-- `create_tables.sql`: Script for creating tables in the database.
-- `insert_data.sql`: Script for populating the tables with dummy data.
+- `skycharter_indonesia.sql`: Script for creating tables in the database & Script for populating the tables with dummy data.
 - `analysis_queries.sql`: Queries for conducting business data analysis.
 - `backup_recovery.sql`: Scripts for performing database backup and recovery.
 
 ## How to Use
 1. **Set Up the Database:**
-   - Execute `create_tables.sql` to create the database structure.
-   - Execute `insert_data.sql` to populate the tables with dummy data.
+   - Execute `skycharter_indonesia.sql` to create the database structure and to populate the tables with dummy data.
 
 2. **Analyze Data:**
    - Use `analysis_queries.sql` to run analysis queries on the data.
